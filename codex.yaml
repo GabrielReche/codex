@@ -3,7 +3,7 @@ version: "3.9" # Versão mais recente do Docker Compose
 services:
   docs:
     container_name: codex
-    image: ghcr.io/codex-team/codex.docs:latest
+    image: teches/codex:latest
 
     # Variáveis de ambiente
     environment:
