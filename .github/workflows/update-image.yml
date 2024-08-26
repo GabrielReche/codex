@@ -1,0 +1,49 @@
+name: Update Docker Image
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Executa diariamente à meia-noite
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+env:
+  FORCE_NODE_VERSION: "20"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Set up Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check Node.js version
+        run: node -v
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Pull public image
+        run: docker pull ghcr.io/codex-team/codex.docs:latest
+
+      - name: Tag image
+        run: docker tag ghcr.io/codex-team/codex.docs:latest teches/codex:latest
+
+      - name: Push image to Docker Hub
+        run: docker push teches/codex:latest

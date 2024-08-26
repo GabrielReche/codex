@@ -1,0 +1,37 @@
+version: "3.9" # Versão mais recente do Docker Compose
+
+services:
+  docs:
+    container_name: codex
+    image: ghcr.io/codex-team/codex.docs:latest
+
+    # Variáveis de ambiente
+    environment:
+      - APP_CONFIG_auth_password=codex
+
+    # Mapeamento de portas
+    ports:
+      - "3000:3000"
+
+    # Volumes para persistência de dados
+    volumes:
+      - /dl/configs/codex/uploads:/usr/src/app/uploads
+      - /dl/configs/codex/db:/usr/src/app/db
+      - /dl/configs/codex/docs-config.yaml:/usr/src/app/docs-config.yaml
+
+    # Política de reinício para garantir que o contêiner reinicie em caso de falhas
+    restart: always # Reinicia o contêiner automaticamente se ele falhar
+
+    # Definir uma rede personalizada (opcional)
+    networks:
+      - codex-net
+
+    # Labels para melhor organização e gestão
+    labels:
+      - "com.example.description=Codex container for documentation"
+      - "com.example.version=2.0.0" # Versão do contêiner
+
+# Definir rede personalizada (opcional)
+networks:
+  codex-net:
+    driver: bridge # Tipo de driver de rede

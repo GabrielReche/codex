@@ -1,0 +1,22 @@
+# Logs de Linux
+*.log
+*.log.*
+*.log.[0-9]
+*.log.[0-9]*
+
+# Logs de sistema Windows
+*.log
+*.log.[0-9]
+*.log.[0-9]*
+
+# Logs comuns
+logs/
+*.log
+*.log.*
+
+# Linux temporary files
+*~
+
+# Windows temporary files
+*.tmp
+*.temp
